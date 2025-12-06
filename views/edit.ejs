@@ -8,7 +8,7 @@
 <body>
     <h2>You are about to edit the user : <%= user.email %> </h2>
     <!-- use method override for patch  -->
-    <form method="post" accept="/user/<%= user.id %> ?_method=PATCH">
+    <form method="post" action="/user/<%= user.id %>?_method=PATCH">
         <textarea name="username" id=""> <%= user.username %> </textarea>
         <input type="password" name="password" placeholder="enter password">
         <button>Edit</button>

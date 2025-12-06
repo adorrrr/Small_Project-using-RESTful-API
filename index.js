@@ -3,7 +3,9 @@ const mysql = require("mysql2");
 const express = require("express");
 const app = express();
 //method override
-const methodOverride = require("method-override")
+const methodOverride = require("method-override");
+app.use(methodOverride("_method"));
+app.use(express.urlencoded({ extended: true }));
 
 //EJS require
 const path = require("path");
@@ -81,9 +83,31 @@ app.get("/user/:id/edit", (req, res) => {
 });
 
 
-//Update in BD
+//Update username in BD
 app.patch("/user/:id", (req, res) => {
+    let {id} = req.params;
+    let {username:newUsename, password:fromPass} = req.body
+    let q = `SELECT * FROM user WHERE id = '${id}'`;
 
+    try {
+        connection.query(q, (err, result) => {
+        if(err) throw err;
+        let user = result[0];
+
+        if(fromPass != user.password){
+            res.send("ERROR, WRONG Password");
+        }else {
+            let q2 = `UPDATE user SET username='${newUsename}' WHERE id = '${id}'`;
+            connection.query(q2, (err, result) =>{
+                if(err) throw err;
+                res.redirect("/user");
+            });
+        }
+    });
+    } catch (err) {
+        console.log(err);
+        res.send("something error")
+    }     
 });
 
 
