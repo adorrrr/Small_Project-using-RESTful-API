@@ -2,12 +2,13 @@ const { faker } = require("@faker-js/faker");
 const mysql = require("mysql2");
 const express = require("express");
 const app = express();
+//method override
+const methodOverride = require("method-override")
 
 //EJS require
 const path = require("path");
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
-
 
 //Database connection
 const connection = mysql.createConnection({
@@ -16,6 +17,7 @@ const connection = mysql.createConnection({
     database: "project1",
     password: "myAdmin@BD1"
 });
+
 
 
 //Using faker created rendom value 
@@ -42,9 +44,8 @@ app.get("/", (req, res) => {
         console.log(err);
         res.send("something error")
     }
-
-
 });
+
 
 //Render user info in this page
 app.get("/user", (req, res) => {
@@ -60,6 +61,7 @@ app.get("/user", (req, res) => {
         res.send("something error")
     }  
 });
+
 
 //Edit Username 
 app.get("/user/:id/edit", (req, res) => {
@@ -79,6 +81,10 @@ app.get("/user/:id/edit", (req, res) => {
 });
 
 
+//Update in BD
+app.patch("/user/:id", (req, res) => {
+
+});
 
 
 
